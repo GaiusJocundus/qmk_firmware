@@ -4,6 +4,7 @@
 # OPT_DEFS += -DLEFT_LEDS
 
 CUSTOM_MATRIX    = lite # Custom matrix file for the ErgoDox EZ
+UNICODEMAP_ENABLE = yes
 
 # project specific files
 SRC += matrix.c
