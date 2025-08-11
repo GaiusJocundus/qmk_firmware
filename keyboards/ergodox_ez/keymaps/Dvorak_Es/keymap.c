@@ -31,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    º   |   1  |   2  |   3  |   4  |   5  | ACC  |           | IEXP |   6  |   7  |   8  |   9  |   0  | CapsLk |
+ * |    º   |   1  |   2  |   3  |   4  |   5  | IEXL |           | ACC  |   6  |   7  |   8  |   9  |   0  | CapsLk |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   .  |   ,  |   Ñ  |   P  |   Y  | HOME |           | PGUP |   F  |   G  |   C  |   R  |   L  |   –    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [BASE] = LAYOUT_ergodox_pretty(
   // left hand
-  ES_MORD,         ES_1,        ES_2,          ES_3,    ES_4,    ES_5,    ES_ACUT,              ES_IEXL,      ES_6,    ES_7,    ES_8,    ES_9,    ES_0,    KC_CAPS,
+  ES_MORD,         ES_1,        ES_2,          ES_3,    ES_4,    ES_5,    ES_IEXL,              ES_ACUT,      ES_6,    ES_7,    ES_8,    ES_9,    ES_0,    KC_CAPS,
   KC_TAB,          ES_DOT,      ES_COMM,       ES_NTIL, ES_P,    ES_Y,    KC_HOME,              KC_PGUP,      ES_F,    ES_G,    ES_C,    ES_R,    ES_L,    UP(U_NDSH,U_MDSH),
   KC_ESC,          ES_A,        ES_O,          ES_E,    ES_U,    ES_I,                                        ES_D,    ES_H,    ES_T,    ES_N,    ES_S,    ES_MINS,
   KC_LSFT,         ES_LABK,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_END,               KC_PGDN,      ES_B,    ES_M,    ES_W,    ES_V,    ES_Z,    KC_RSFT,
