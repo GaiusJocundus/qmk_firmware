@@ -6,6 +6,7 @@ enum layers {
     BASE,  // default layer
     FUNC,
     NUMPAD,
+    ENG,
 };
 
 enum custom_keycodes {
@@ -90,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LSFT,         ES_LABK,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_END,               KC_PGDN,      ES_B,    ES_M,    ES_W,    ES_V,    ES_Z,    KC_RSFT,
   KC_ALGR,         ES_PLUS, UP(U_QTBL,U_QTBR), KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, ES_QUOT, ES_GRV,  KC_ALGR,
                                                                   KC_LGUI, KC_LALT,                KC_RGUI, ES_CCED,
-                                                                           KC_TRNS,                KC_TRNS, 
+                                                                           KC_TRNS,                TO(ENG), 
                                                           KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
 ),
 
@@ -123,7 +124,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LSFT,         ES_LABK,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_MPRV,              KC_VOLD,      ES_B,    KC_KP_1, KC_KP_2, KC_KP_3, KC_PDOT, KC_RSFT,
   KC_ALGR,         ES_PLUS, UP(U_QTBL,U_QTBR), KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, KC_KP_0, ES_GRV,  KC_ALGR,
                                                                   KC_LGUI, KC_LALT,                KC_RGUI, ES_CCED,
-                                                                           KC_TRNS,                KC_TRNS, 
+                                                                          TO(BASE),                KC_TRNS, 
+                                                          KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
+),
+
+/* Keymap 0: Basic layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |    =   |   1  |   2  |   3  |   4  |   5  | IEXL |           | ACC  |   6  |   7  |   8  |   9  |   0  | CapsLk |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * | Tab    |   '  |   ,  |   .  |   P  |   Y  | HOME |           | PGUP |   F  |   G  |   C  |   R  |   L  |   /    |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | ESC    |   A  |   O  |   E  |   U  |   I  |------|           |------|   D  |   H  |   T  |   N  |   S  |   -    |
+ * |--------+------+------+------+------+------| END  |           | PGDN |------+------+------+------+------+--------|
+ * | LShift |   ;  |   Q  |   J  |   K  |   X  |      |           |      |   B  |   M  |   W  |   V  |   Z  | RShift |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   | ALGR |   \  |   «  | Left | Right|                                       |  Up  | Down |   '  |  GRV | ALGR |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,---------------.
+ *                                        | LGUI | LALT |       | RGUI |   Ç    |
+ *                                 ,------|------|------|       |------+--------+------.
+ *                                 |      |      | BASE |       | BASE |        |      |
+ *                                 | BSPC | DEL  |------|       |------| ENTER  |SPACE |
+ *                                 |      |      | LCTL |       | RCTL |        |      |
+ *                                 `--------------------'       `----------------------'
+ */
+[ENG] = LAYOUT_ergodox_pretty(
+  // left hand
+  KC_EQL,          KC_1,        KC_2,          KC_3,    KC_4,    KC_5,    KC_TRNS,              KC_TRNS,      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_CAPS,
+  KC_TAB,          KC_QUOT,     KC_COMM,       KC_DOT,  KC_P,    KC_Y,    KC_HOME,              KC_PGUP,      KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH,
+  KC_ESC,          KC_A,        KC_O,          KC_E,    KC_U,    KC_I,                                        KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS,
+  KC_LSFT,         KC_SCLN,     KC_Q,          KC_J,    KC_K,    KC_X,    KC_END,               KC_PGDN,      KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT,
+  KC_TRNS,         KC_BSLS,     KC_TRNS,       KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, KC_TRNS, KC_TRNS, KC_TRNS,
+                                                                  KC_LGUI, KC_LALT,                KC_RGUI, KC_TRNS,
+                                                                          TO(BASE),                TO(BASE),
                                                           KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
 ),
 };
@@ -170,22 +204,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     uint8_t layer = get_highest_layer(state);
     switch (layer) {
-        case 0:
-#ifdef RGBLIGHT_COLOR_LAYER_0
-            rgblight_setrgb(RGBLIGHT_COLOR_LAYER_0);
-#endif
-            break;
-        case 1:
+	case 1:
             ergodox_right_led_1_on();
-#ifdef RGBLIGHT_COLOR_LAYER_1
-            rgblight_setrgb(RGBLIGHT_COLOR_LAYER_1);
-#endif
             break;
         case 2:
             ergodox_right_led_1_on();
-#ifdef RGBLIGHT_COLOR_LAYER_2
-            rgblight_setrgb(RGBLIGHT_COLOR_LAYER_2);
-#endif
+            break;
+        case 3:
+            ergodox_right_led_1_on();
             break;
         default:
             break;
