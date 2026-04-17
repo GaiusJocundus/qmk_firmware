@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
-#include "keymap_spanish.h"
+#include "keymap_spanish_latin_america.h"
 
 enum layers {
     BASE,  // default layer
@@ -14,25 +14,33 @@ enum custom_keycodes {
 };
 
 enum unicode_names {
-    U_QTBL,
-    U_QTBR,
-    U_NDSH,
-    U_MDSH,
+    U_QTBL,   // «
+    U_QTBR,   // »
+    U_NDSH,   // –
+    U_MDSH,   // —
+    U_MORD,   // º (masculine ordinal)
+    U_FORD,   // ª (feminine ordinal)
+    U_CCDU,   // Ç (uppercase cedilla)
+    U_CCDL,   // ç (lowercase cedilla)
 };
 
 const uint32_t unicode_map[] PROGMEM = {
-    [U_QTBL] = 0x00AB,
-    [U_QTBR] = 0x00BB,
-    [U_NDSH] = 0x2013,
-    [U_MDSH] = 0x2014,
+    [U_QTBL] = 0x00AB,  // «
+    [U_QTBR] = 0x00BB,  // »
+    [U_NDSH] = 0x2013,  // –
+    [U_MDSH] = 0x2014,  // —
+    [U_MORD] = 0x00BA,  // º
+    [U_FORD] = 0x00AA,  // ª
+    [U_CCDU] = 0x00C7,  // Ç
+    [U_CCDL] = 0x00E7,  // ç
 };
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap 0: Basic layer
+/* Keymap 0: Basic layer (Spanish Dvorak for LATAM ES QWERTY)
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    º   |   1  |   2  |   3  |   4  |   5  | IEXL |           | ACC  |   6  |   7  |   8  |   9  |   0  | CapsLk |
+ * |   º/ª  |   1  |   2  |   3  |   4  |   5  | ¿/¡  |           |  ´   |   6  |   7  |   8  |   9  |   0  | CapsLk |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   .  |   ,  |   Ñ  |   P  |   Y  | HOME |           | PGUP |   F  |   G  |   C  |   R  |   L  |   –    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -43,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | ALGR |   +  |   «  | Left | Right|                                       |  Up  | Down |   '  |  GRV | ALGR |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | LGUI | LALT |       | RGUI |   Ç    |
+ *                                        | LGUI | LALT |       | RGUI |  ç/Ç   |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | FUNC |       | NUM  |        |      |
  *                                 | BSPC | DEL  |------|       |------| ENTER  |SPACE |
@@ -51,21 +59,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `----------------------'
  */
 [BASE] = LAYOUT_ergodox_pretty(
-  // left hand
-  ES_MORD,         ES_1,        ES_2,          ES_3,    ES_4,    ES_5,    ES_IEXL,              ES_ACUT,      ES_6,    ES_7,    ES_8,    ES_9,    ES_0,    KC_CAPS,
+  // left hand                                                                    // right hand
+  UP(U_MORD,U_FORD), ES_1,    ES_2,          ES_3,    ES_4,    ES_5,    ES_IQUE,              ES_ACUT,      ES_6,    ES_7,    ES_8,    ES_9,    ES_0,    KC_CAPS,
   KC_TAB,          ES_DOT,      ES_COMM,       ES_NTIL, ES_P,    ES_Y,    KC_HOME,              KC_PGUP,      ES_F,    ES_G,    ES_C,    ES_R,    ES_L,    UP(U_NDSH,U_MDSH),
   KC_ESC,          ES_A,        ES_O,          ES_E,    ES_U,    ES_I,                                        ES_D,    ES_H,    ES_T,    ES_N,    ES_S,    ES_MINS,
   KC_LSFT,         ES_LABK,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_END,               KC_PGDN,      ES_B,    ES_M,    ES_W,    ES_V,    ES_Z,    KC_RSFT,
   KC_ALGR,         ES_PLUS, UP(U_QTBL,U_QTBR), KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, ES_QUOT, ES_GRV,  KC_ALGR,
-                                                                  KC_LGUI, KC_LALT,                KC_RGUI, ES_CCED,
+                                                                  KC_LGUI, KC_LALT,                KC_RGUI, UP(U_CCDL,U_CCDU),
                                                                           TG(FUNC),                TG(NUMPAD),
                                                           KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
 ),
 
-/* Keymap 1: FUNCTION ACCESS
+/* Keymap 1: FUNCTION ACCESS (Spanish Dvorak + F-keys for LATAM ES QWERTY)
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    º   |  F1  |  F2  |  F3  |  F4  |  F5  | F11  |           | F12  |  F6  |  F7  |  F8  |  F9  | F10  | CapsLk |
+ * |   º/ª  |  F1  |  F2  |  F3  |  F4  |  F5  | F11  |           | F12  |  F6  |  F7  |  F8  |  F9  | F10  | CapsLk |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   .  |   ,  |   Ñ  |   P  |   Y  | HOME |           | PGUP |   F  |   G  |   C  |   R  |   L  |   –    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -76,29 +84,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | ALGR |   +  |   «  | Left | Right|                                       |  Up  | Down |   '  |  GRV | ALGR |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | LGUI | LALT |       | RGUI |   Ç    |
+ *                                        | LGUI | LALT |       | RGUI |  ç/Ç   |
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | FUNC |       | NUM  |        |      |
+ *                                 |      |      | FUNC |       | ENG  |        |      |
  *                                 | BSPC | DEL  |------|       |------| ENTER  |SPACE |
  *                                 |      |      | LCTL |       | RCTL |        |      |
  *                                 `--------------------'       `----------------------'
  */
 [FUNC] = LAYOUT_ergodox_pretty(
-  // left hand
-  ES_MORD,         KC_F1,       KC_F2,         KC_F3,   KC_F4,   KC_F5,   KC_F11,               KC_F12,       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_CAPS,
+  // left hand                                                                    // right hand
+  UP(U_MORD,U_FORD), KC_F1,   KC_F2,         KC_F3,   KC_F4,   KC_F5,   KC_F11,               KC_F12,       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_CAPS,
   KC_TAB,          ES_DOT,      ES_COMM,       ES_NTIL, ES_P,    ES_Y,    KC_HOME,              KC_PGUP,      ES_F,    ES_G,    ES_C,    ES_R,    ES_L,    UP(U_NDSH,U_MDSH),
   KC_ESC,          ES_A,        ES_O,          ES_E,    ES_U,    ES_I,                                        ES_D,    ES_H,    ES_T,    ES_N,    ES_S,    ES_MINS,
   KC_LSFT,         ES_LABK,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_END,               KC_PGDN,      ES_B,    ES_M,    ES_W,    ES_V,    ES_Z,    KC_RSFT,
   KC_ALGR,         ES_PLUS, UP(U_QTBL,U_QTBR), KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, ES_QUOT, ES_GRV,  KC_ALGR,
-                                                                  KC_LGUI, KC_LALT,                KC_RGUI, ES_CCED,
-                                                                           KC_TRNS,                TO(ENG), 
+                                                                  KC_LGUI, KC_LALT,                KC_RGUI, UP(U_CCDL,U_CCDU),
+                                                                           KC_TRNS,                TO(ENG),
                                                           KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
 ),
 
-/* Keymap 2: Number Pad and Multimedia
+/* Keymap 2: Number Pad and Multimedia (Spanish Dvorak + numpad for LATAM ES QWERTY)
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    º   |   1  |   2  |   3  |   4  |   5  | PLAY |           | MUTE |   6  | NMLK |   /  |   *  |   -  | CapsLk |
+ * |   º/ª  |   1  |   2  |   3  |   4  |   5  | PLAY |           | MUTE |   6  | NMLK |   /  |   *  |   -  | CapsLk |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   .  |   ,  |   Ñ  |   P  |   Y  | NEXT |           | VOLU |   F  |   7  |   8  |   9  |   +  |   –    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -109,29 +117,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | ALGR |   +  |   «  | Left | Right|                                       |  Up  | Down |   0  |  GRV | ALGR |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | LGUI | LALT |       | RGUI | IEXP   |
+ *                                        | LGUI | LALT |       | RGUI |  ç/Ç   |
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | FUNC |       | NUM  |        |      |
+ *                                 |      |      | BASE |       | NUM  |        |      |
  *                                 | BSPC | DEL  |------|       |------| ENTER  |SPACE |
  *                                 |      |      | LCTL |       | RCTL |        |      |
  *                                 `--------------------'       `----------------------'
  */
 [NUMPAD] = LAYOUT_ergodox_pretty(
-  // left hand
-  ES_MORD,         ES_1,        ES_2,          ES_3,    ES_4,    ES_5,    KC_MPLY,              KC_MUTE,      ES_6,    KC_NUM,  KC_PSLS, KC_PAST, KC_PMNS, KC_CAPS,
+  // left hand                                                                    // right hand
+  UP(U_MORD,U_FORD), ES_1,    ES_2,          ES_3,    ES_4,    ES_5,    KC_MPLY,              KC_MUTE,      ES_6,    KC_NUM,  KC_PSLS, KC_PAST, KC_PMNS, KC_CAPS,
   KC_TAB,          ES_DOT,      ES_COMM,       ES_NTIL, ES_P,    ES_Y,    KC_MNXT,              KC_VOLU,      ES_F,    KC_KP_7, KC_KP_8, KC_KP_9, KC_PPLS, UP(U_NDSH,U_MDSH),
   KC_ESC,          ES_A,        ES_O,          ES_E,    ES_U,    ES_I,                                        ES_D,    KC_KP_4, KC_KP_5, KC_KP_6, KC_PEQL, ES_MINS,
   KC_LSFT,         ES_LABK,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_MPRV,              KC_VOLD,      ES_B,    KC_KP_1, KC_KP_2, KC_KP_3, KC_PDOT, KC_RSFT,
   KC_ALGR,         ES_PLUS, UP(U_QTBL,U_QTBR), KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, KC_KP_0, ES_GRV,  KC_ALGR,
-                                                                  KC_LGUI, KC_LALT,                KC_RGUI, ES_CCED,
-                                                                          TO(BASE),                KC_TRNS, 
+                                                                  KC_LGUI, KC_LALT,                KC_RGUI, UP(U_CCDL,U_CCDU),
+                                                                          TO(BASE),                KC_TRNS,
                                                           KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
 ),
 
-/* Keymap 0: Basic layer
+/* Keymap 3: English Dvorak (US Dvorak output through LATAM ES QWERTY)
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    =   |   1  |   2  |   3  |   4  |   5  | IEXL |           | ACC  |   6  |   7  |   8  |   9  |   0  | CapsLk |
+ * |    =   |   1  |   2  |   3  |   4  |   5  | ¿/¡  |           |  ´   |   6  |   7  |   8  |   9  |   0  | CapsLk |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   '  |   ,  |   .  |   P  |   Y  | HOME |           | PGUP |   F  |   G  |   C  |   R  |   L  |   /    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -142,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | ALGR |   \  |   «  | Left | Right|                                       |  Up  | Down |   '  |  GRV | ALGR |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | LGUI | LALT |       | RGUI |   Ç    |
+ *                                        | LGUI | LALT |       | RGUI |  ç/Ç   |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | BASE |       | BASE |        |      |
  *                                 | BSPC | DEL  |------|       |------| ENTER  |SPACE |
@@ -150,12 +158,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `----------------------'
  */
 [ENG] = LAYOUT_ergodox_pretty(
-  // left hand
-  KC_EQL,          KC_1,        KC_2,          KC_3,    KC_4,    KC_5,    KC_TRNS,              KC_TRNS,      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_CAPS,
-  KC_TAB,          KC_QUOT,     KC_COMM,       KC_DOT,  KC_P,    KC_Y,    KC_HOME,              KC_PGUP,      KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH,
-  KC_ESC,          KC_A,        KC_O,          KC_E,    KC_U,    KC_I,                                        KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS,
-  KC_LSFT,         KC_SCLN,     KC_Q,          KC_J,    KC_K,    KC_X,    KC_END,               KC_PGDN,      KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT,
-  KC_TRNS,         KC_BSLS,     KC_TRNS,       KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, KC_TRNS, KC_TRNS, KC_TRNS,
+  // left hand                                                                    // right hand
+  ES_EQL,          ES_1,        ES_2,          ES_3,    ES_4,    ES_5,    KC_TRNS,              KC_TRNS,      ES_6,    ES_7,    ES_8,    ES_9,    ES_0,    KC_CAPS,
+  KC_TAB,          ES_QUOT,     ES_COMM,       ES_DOT,  ES_P,    ES_Y,    KC_HOME,              KC_PGUP,      ES_F,    ES_G,    ES_C,    ES_R,    ES_L,    ES_SLSH,
+  KC_ESC,          ES_A,        ES_O,          ES_E,    ES_U,    ES_I,                                        ES_D,    ES_H,    ES_T,    ES_N,    ES_S,    ES_MINS,
+  KC_LSFT,         ES_SCLN,     ES_Q,          ES_J,    ES_K,    ES_X,    KC_END,               KC_PGDN,      ES_B,    ES_M,    ES_W,    ES_V,    ES_Z,    KC_RSFT,
+  KC_TRNS,         ES_BSLS,     KC_TRNS,       KC_LEFT, KC_RGHT,                                                       KC_UP,   KC_DOWN, KC_TRNS, KC_TRNS, KC_TRNS,
                                                                   KC_LGUI, KC_LALT,                KC_RGUI, KC_TRNS,
                                                                           TO(BASE),                TO(BASE),
                                                           KC_BSPC, KC_DEL, KC_LCTL,                KC_RCTL, KC_ENT, KC_SPC
